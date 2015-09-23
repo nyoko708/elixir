@@ -4,18 +4,35 @@
 
 defmodule IsUniqueString do
 
-  strs = []
-
   def main(str) do
     length = String.length(str)
-
-    to_array_string(str, length, 0)
+    status = loop_string(str, length, 0)
+    if status == nil do
+      IO.puts true
+    else
+      IO.puts false
+    end
   end
 
-  def to_array_string(str, length, pos) do
+  def loop_string(str, length, pos) do
     if 0 <= pos && pos < length do
-      List.insert_at(strs, pos, String.at(str, pos))
-      to_array_string(str, length, pos+1)
+      val = String.at(str, pos)
+      status = check_unique(val, str, length, pos+1)
+      if status == false do
+        false
+      else
+        loop_string(str, length, pos+1)
+      end
+    end
+  end
+
+  def check_unique(val, str, length, pos) do
+    if 0 <= pos && pos < length do
+      if val == String.at(str, pos) do
+        false
+      else
+        check_unique(val, str, length, pos+1)
+      end
     end
   end
 
