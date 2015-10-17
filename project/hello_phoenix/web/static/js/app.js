@@ -30,10 +30,6 @@ let chan = socket.channel("rooms:lobby", {})
 let chatInput         = $("#chat-input")
 let messagesContainer = $("#messages")
 
-let socket = new Socket("/socket")
-socket.connect()
-let chan = socket.channel("rooms:lobby", {})
-
 chatInput.on("keypress", event => {
   if(event.keyCode === 13){
      chan.push("new_msg", {body: chatInput.val()})

@@ -13,6 +13,8 @@
       <div class='page-header'>
         <h4>WC usage</h4>
       </div>
+      <div id="messages"></div>
+      <input id="chat-input" type="text"></input>
     </div>
   </div>
 </div>
