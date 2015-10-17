@@ -19,3 +19,10 @@ import "deps/phoenix_html/web/static/js/phoenix_html"
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+import {Socket} from "deps/phoenix/web/static/js/phoenix"
+let socket = new Socket("/socket")
+socket.connect()
+let chan = socket.channel("rooms:lobby", {})
+  chan.join().receive("ok", chan => {
+  console.log("Welcome to Phoenix Chat!")
+})
