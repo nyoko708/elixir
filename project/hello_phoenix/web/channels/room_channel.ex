@@ -18,4 +18,14 @@ defmodule HelloPhoenix.RoomChannel do
     push socket, "new_msg", payload
     {:noreply, socket}
   end
+
+  intercept ["user_joined"]
+  def handle_out("user_joined", msg, socket) do
+    if User.ignoring?(socket.assigns[:user], msg.user_id) do
+      {:noreply, socket}
+    else
+      push socket, "user_joined", msg
+      {:noreply, socket}
+    end
+  end
 end

@@ -1146,6 +1146,7 @@ require("deps/phoenix_html/web/static/js/phoenix_html");
 var _depsPhoenixWebStaticJsPhoenix = require("deps/phoenix/web/static/js/phoenix");
 
 var socket = new _depsPhoenixWebStaticJsPhoenix.Socket("/socket");
+
 socket.connect();
 var chan = socket.channel("rooms:lobby", {});
 chan.join().receive("ok", function (chan) {
@@ -1163,7 +1164,7 @@ chatInput.on("keypress", function (event) {
 });
 
 chan.on("new_msg", function (payload) {
-  messagesContainer.append("<br/>[" + Date() + "] " + payload.body);
+  messagesContainer.append("<br/>" + payload.body);
 });
 
 chan.join().receive("ok", function (chan) {

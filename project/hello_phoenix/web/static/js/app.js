@@ -21,6 +21,7 @@ import "deps/phoenix_html/web/static/js/phoenix_html"
 // import socket from "./socket"
 import {Socket} from "deps/phoenix/web/static/js/phoenix"
 let socket = new Socket("/socket")
+
 socket.connect()
 let chan = socket.channel("rooms:lobby", {})
   chan.join().receive("ok", chan => {
@@ -38,7 +39,7 @@ chatInput.on("keypress", event => {
 })
 
 chan.on("new_msg", payload => {
-    messagesContainer.append(`<br/>[${Date()}] ${payload.body}`)
+    messagesContainer.append(`<br/>${payload.body}`)
 })
 
 chan.join().receive("ok", chan => {
