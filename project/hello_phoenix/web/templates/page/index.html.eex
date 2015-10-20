@@ -11,12 +11,26 @@
     </div>
     <div class='panel-body'>
       <div class='page-header'>
-        <h4>WC usage</h4>
+        <h4>10F Men's</h4>
       </div>
-      <img src="/images/occupied_wc.png">
-      <img src="/images/vacant_wc.png">
-      <div id="messages"></div>
-      <input id="chat-input" type="text"></input>
+      <div class='row text-center'>
+        <div class='col-md-3'>
+          <img src="/images/occupied_wc.png">
+          <img src="/images/vacant_wc.png">
+        </div>
+      </div>
+      <div class='page-header'>
+        <h4>Messages</h4>
+      </div>
+      <pre id="msg_bottom" class="pre-scrollable">
+        <div id="messages"></div>
+      </pre>
+      <div class='row text-left'>
+        <div class='col-md-3'>
+          <input id="chat-input" type="text"></input>
+          <input id="chat-button" type="button" value="send"></input>
+        </div>
+      </div>
     </div>
   </div>
 </div>

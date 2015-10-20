@@ -1145,6 +1145,11 @@ require("deps/phoenix_html/web/static/js/phoenix_html");
 
 var _depsPhoenixWebStaticJsPhoenix = require("deps/phoenix/web/static/js/phoenix");
 
+function goBottom(targetId) {
+  var obj = document.getElementById(targetId);
+  if (!obj) return;
+  obj.scrollTop = obj.scrollHeight;
+}
 var socket = new _depsPhoenixWebStaticJsPhoenix.Socket("/socket");
 
 socket.connect();
@@ -1165,6 +1170,7 @@ chatInput.on("keypress", function (event) {
 
 chan.on("new_msg", function (payload) {
   messagesContainer.append("<br/>" + payload.body);
+  goBottom("msg_bottom");
 });
 
 chan.join().receive("ok", function (chan) {

@@ -18,6 +18,11 @@ import "deps/phoenix_html/web/static/js/phoenix_html"
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
+function goBottom(targetId) {
+  var obj = document.getElementById(targetId);
+  if(!obj) return;
+  obj.scrollTop = obj.scrollHeight;
+}
 // import socket from "./socket"
 import {Socket} from "deps/phoenix/web/static/js/phoenix"
 let socket = new Socket("/socket")
@@ -40,8 +45,10 @@ chatInput.on("keypress", event => {
 
 chan.on("new_msg", payload => {
     messagesContainer.append(`<br/>${payload.body}`)
+    goBottom("msg_bottom");
 })
 
 chan.join().receive("ok", chan => {
     console.log("Welcome to Phoenix Chat!")
 })
+
