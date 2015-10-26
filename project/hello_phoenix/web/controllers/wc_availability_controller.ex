@@ -20,6 +20,8 @@ defmodule HelloPhoenix.WcAvailabilityController do
     if paramCheck(params) == false do
       render conn, "error.json", message: "param error"
     else
+      # APIにアクセスが来たらブロードキャストする
+      HelloPhoenix.Endpoint.broadcast! "rooms:lobby", "new_msg", %{body: "こんにちは"}
       render conn, "status.json"
     end
   end

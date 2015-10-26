@@ -23,18 +23,21 @@ function goBottom(targetId) {
   if(!obj) return;
   obj.scrollTop = obj.scrollHeight;
 }
+
+let chatInput         = $("#chat-input")
+let messagesContainer = $("#messages")
+
 // import socket from "./socket"
 import {Socket} from "deps/phoenix/web/static/js/phoenix"
 let socket = new Socket("/socket")
 
 socket.connect()
 let chan = socket.channel("rooms:lobby", {})
-  chan.join().receive("ok", chan => {
-  console.log("Welcome to Phoenix Chat!")
+
+chan.join().receive("ok", chan => {
+  messagesContainer.append("Welcome to Phoenix Chat!")
 })
 
-let chatInput         = $("#chat-input")
-let messagesContainer = $("#messages")
 
 chatInput.on("keypress", event => {
   if(event.keyCode === 13){

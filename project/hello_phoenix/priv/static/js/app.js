@@ -1150,16 +1150,17 @@ function goBottom(targetId) {
   if (!obj) return;
   obj.scrollTop = obj.scrollHeight;
 }
+
+var chatInput = $("#chat-input");
+var messagesContainer = $("#messages");
 var socket = new _depsPhoenixWebStaticJsPhoenix.Socket("/socket");
 
 socket.connect();
 var chan = socket.channel("rooms:lobby", {});
-chan.join().receive("ok", function (chan) {
-  console.log("Welcome to Phoenix Chat!");
-});
 
-var chatInput = $("#chat-input");
-var messagesContainer = $("#messages");
+chan.join().receive("ok", function (chan) {
+  messagesContainer.append("Welcome to Phoenix Chat!");
+});
 
 chatInput.on("keypress", function (event) {
   if (event.keyCode === 13) {
