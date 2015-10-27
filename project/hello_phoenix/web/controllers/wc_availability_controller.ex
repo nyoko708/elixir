@@ -20,8 +20,17 @@ defmodule HelloPhoenix.WcAvailabilityController do
     if paramCheck(params) == false do
       render conn, "error.json", message: "param error"
     else
+
+      # どのトイレかID取得
+      wcId = params["id"]
+
+      # そのトイレが開いているか開いていないか?
+      wcStatus = params["status"]
+
+      # スタータスをファイルに書き込み
+
       # APIにアクセスが来たらブロードキャストする
-      HelloPhoenix.Endpoint.broadcast! "rooms:lobby", "new_msg", %{body: "こんにちは"}
+      HelloPhoenix.Endpoint.broadcast! "rooms:lobby", "new_msg", %{ok: "ok", sex: params["sex"], wcId: wcId, wcStatus: wcStatus}
       render conn, "status.json"
     end
   end

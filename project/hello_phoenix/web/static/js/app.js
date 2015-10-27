@@ -47,7 +47,8 @@ chatInput.on("keypress", event => {
 })
 
 chan.on("new_msg", payload => {
-    messagesContainer.append(`<br/>${payload.body}`)
+    console.log(payload);
+    messagesContainer.append(`<br/>トイレID:${payload.wcId} 空き状況:${payload.wcStatus}`)
     goBottom("msg_bottom");
 })
 
