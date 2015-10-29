@@ -1132,7 +1132,7 @@ for (var i = 0; i < len; ++i) {
 //
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
-"use strict";
+'use strict';
 
 require("deps/phoenix_html/web/static/js/phoenix_html");
 
@@ -1151,6 +1151,22 @@ function goBottom(targetId) {
   obj.scrollTop = obj.scrollHeight;
 }
 
+function dateFormat(format) {
+  if (!format) format = 'YYYY-MM-DD hh:mm';
+  var date = new Date();
+  format = format.replace(/YYYY/g, date.getFullYear());
+  format = format.replace(/MM/g, ('0' + (date.getMonth() + 1)).slice(-2));
+  format = format.replace(/DD/g, ('0' + date.getDate()).slice(-2));
+  format = format.replace(/hh/g, ('0' + date.getHours()).slice(-2));
+  format = format.replace(/mm/g, ('0' + date.getMinutes()).slice(-2));
+  if (format.match(/S/g)) {
+    var milliSeconds = ('00' + date.getMilliseconds()).slice(-3);
+    var length = format.match(/S/g).length;
+    for (var i = 0; i < length; i++) format = format.replace(/S/, milliSeconds.substring(i, i + 1));
+  }
+  return format;
+};
+
 var chatInput = $("#chat-input");
 var messagesContainer = $("#messages");
 var socket = new _depsPhoenixWebStaticJsPhoenix.Socket("/socket");
@@ -1162,21 +1178,18 @@ chan.join().receive("ok", function (chan) {
   messagesContainer.append("Welcome to Phoenix Chat!");
 });
 
-chatInput.on("keypress", function (event) {
-  if (event.keyCode === 13) {
-    chan.push("new_msg", { body: chatInput.val() });
-    chatInput.val("");
-  }
-});
-
 chan.on("new_msg", function (payload) {
   console.log(payload);
-  messagesContainer.append("<br/>トイレID:" + payload.wcId + " 空き状況:" + payload.wcStatus);
+  var id = "#wc_10_men_" + payload.wcId;
+  var wcImage = $(id);
+  if (payload.wcStatus == "ok") {
+    wcImage.attr("src", "/images/vacant_wc.png");
+  } else if (payload.wcStatus == "ng") {
+    wcImage.attr("src", "/images/occupied_wc.png");
+  }
+  var date = dateFormat();
+  messagesContainer.append('<br/>' + date + ' トイレID:' + payload.wcId + ' 空き状況:' + payload.wcStatus);
   goBottom("msg_bottom");
-});
-
-chan.join().receive("ok", function (chan) {
-  console.log("Welcome to Phoenix Chat!");
 });
 });
 
