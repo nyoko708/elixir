@@ -12,10 +12,10 @@ defmodule HelloPhoenix.WcAvailabilityController do
 
       wcId = params["id"]
       text = "~/workspace/elixir/project/hello_phoenix/tmp/wc_10_men_" <> wcId
-      filePath = Path.expand(text);
+      filePath = Path.expand(text)
 
       str = File.read! filePath
-      String.replace(str, "\n", "")
+      str = String.replace(str, "\n", "")
 
       render conn, "status.json", message: str
     end
@@ -36,6 +36,11 @@ defmodule HelloPhoenix.WcAvailabilityController do
       wcStatus = params["status"]
 
       # スタータスをファイルに書き込み
+      text = "~/workspace/elixir/project/hello_phoenix/tmp/wc_10_men_" <> wcId
+      filePath = Path.expand(text)
+      {:ok, file} = File.open filePath, [:write]
+      IO.binwrite file, wcStatus
+      File.close file
 
       # APIにアクセスが来たらブロードキャストする
       HelloPhoenix.Endpoint.broadcast! "rooms:lobby", "new_msg", %{ok: "ok", sex: params["sex"], wcId: wcId, wcStatus: wcStatus}

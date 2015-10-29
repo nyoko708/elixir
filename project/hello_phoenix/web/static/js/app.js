@@ -18,12 +18,18 @@ import "deps/phoenix_html/web/static/js/phoenix_html"
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
+/**
+ * メッセージボックを常に下に維持する
+ */
 function goBottom(targetId) {
   var obj = document.getElementById(targetId);
   if(!obj) return;
   obj.scrollTop = obj.scrollHeight;
 }
 
+/**
+ * 今の日付フォーマット生成
+ */
 function dateFormat(format) {
   if (!format) format = 'YYYY-MM-DD hh:mm';
   let date =  new Date();
@@ -40,6 +46,33 @@ function dateFormat(format) {
   return format;
 };
 
+/**
+ * 初回画面表示時のトイレの状況取得
+ */
+function getWcStatus(sex, wcId) {
+  let api = "/api/wc/availability/"+sex+"/"+wcId;
+  $.ajax({
+    type: "GET",
+    url: api,
+    cache: false,
+    dataType: 'json'
+  }).done(function( msg ) {
+    let id = "#wc_10_men_"+wcId;
+    let wcImage = $(id);
+    if(msg.availability == "ok") {
+      wcImage.attr("src", "/images/vacant_wc.png");
+    } else if(msg.availability == "ng") {
+      wcImage.attr("src", "/images/occupied_wc.png");
+    }
+  }).fail(function(){
+    console.log("ajax error!");
+  });
+}
+
+// 初期表示用
+getWcStatus("man", 1);
+getWcStatus("man", 2);
+
 let chatInput         = $("#chat-input")
 let messagesContainer = $("#messages")
 
@@ -55,7 +88,6 @@ chan.join().receive("ok", chan => {
 })
 
 chan.on("new_msg", payload => {
-    console.log(payload);
     let id = "#wc_10_men_"+payload.wcId
     let wcImage = $(id)
     if(payload.wcStatus == "ok") {

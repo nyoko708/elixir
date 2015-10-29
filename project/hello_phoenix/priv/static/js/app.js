@@ -1141,6 +1141,10 @@ require("deps/phoenix_html/web/static/js/phoenix_html");
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
+/**
+ * メッセージボックを常に下に維持する
+ */
+
 // import socket from "./socket"
 
 var _depsPhoenixWebStaticJsPhoenix = require("deps/phoenix/web/static/js/phoenix");
@@ -1151,6 +1155,9 @@ function goBottom(targetId) {
   obj.scrollTop = obj.scrollHeight;
 }
 
+/**
+ * 今の日付フォーマット生成
+ */
 function dateFormat(format) {
   if (!format) format = 'YYYY-MM-DD hh:mm';
   var date = new Date();
@@ -1167,6 +1174,33 @@ function dateFormat(format) {
   return format;
 };
 
+/**
+ * 初回画面表示時のトイレの状況取得
+ */
+function getWcStatus(sex, wcId) {
+  var api = "/api/wc/availability/" + sex + "/" + wcId;
+  $.ajax({
+    type: "GET",
+    url: api,
+    cache: false,
+    dataType: 'json'
+  }).done(function (msg) {
+    var id = "#wc_10_men_" + wcId;
+    var wcImage = $(id);
+    if (msg.availability == "ok") {
+      wcImage.attr("src", "/images/vacant_wc.png");
+    } else if (msg.availability == "ng") {
+      wcImage.attr("src", "/images/occupied_wc.png");
+    }
+  }).fail(function () {
+    console.log("ajax error!");
+  });
+}
+
+// 初期表示用
+getWcStatus("man", 1);
+getWcStatus("man", 2);
+
 var chatInput = $("#chat-input");
 var messagesContainer = $("#messages");
 var socket = new _depsPhoenixWebStaticJsPhoenix.Socket("/socket");
@@ -1179,7 +1213,6 @@ chan.join().receive("ok", function (chan) {
 });
 
 chan.on("new_msg", function (payload) {
-  console.log(payload);
   var id = "#wc_10_men_" + payload.wcId;
   var wcImage = $(id);
   if (payload.wcStatus == "ok") {
