@@ -9,7 +9,15 @@ defmodule HelloPhoenix.WcAvailabilityController do
     if paramCheck(params) == false do
       render conn, "error.json", message: "param error"
     else
-      render conn, "status.json"
+
+      wcId = params["id"]
+      text = "~/workspace/elixir/project/hello_phoenix/tmp/wc_10_men_" <> wcId
+      filePath = Path.expand(text);
+
+      str = File.read! filePath
+      String.replace(str, "\n", "")
+
+      render conn, "status.json", message: str
     end
   end
 
@@ -31,7 +39,7 @@ defmodule HelloPhoenix.WcAvailabilityController do
 
       # APIにアクセスが来たらブロードキャストする
       HelloPhoenix.Endpoint.broadcast! "rooms:lobby", "new_msg", %{ok: "ok", sex: params["sex"], wcId: wcId, wcStatus: wcStatus}
-      render conn, "status.json"
+      render conn, "ok.json"
     end
   end
 

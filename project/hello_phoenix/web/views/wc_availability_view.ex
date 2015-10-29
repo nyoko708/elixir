@@ -6,8 +6,8 @@ defmodule HelloPhoenix.WcAvailabilityView do
     %{ status: "error", message: message }
   end
 
-  def render("status.json", _) do
-    %{ status: "ok", availability: "ok" }
+  def render("status.json", %{message: status}) do
+    %{ status: "ok", availability: status }
   end
 
   def render("ok.json", _) do
