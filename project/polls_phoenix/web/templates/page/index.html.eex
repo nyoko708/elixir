@@ -1,36 +1,33 @@
-<div class="jumbotron">
-  <h2>Welcome to Phoenix!</h2>
-  <p class="lead">A productive web framework that<br />does not compromise speed and maintainability.</p>
-</div>
-
-<div class="row marketing">
-  <div class="col-lg-6">
-    <h4>Resources</h4>
-    <ul>
-      <li>
-        <a href="http://phoenixframework.org/docs/overview">Guides</a>
-      </li>
-      <li>
-        <a href="http://hexdocs.pm/phoenix">Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-    </ul>
+<div id='content'>
+  <div class="jumbotron">
+    <h2>Polls</h3>
   </div>
 
-  <div class="col-lg-6">
-    <h4>Help</h4>
-    <ul>
-      <li>
-        <a href="http://groups.google.com/group/phoenix-talk">Mailing list</a>
-      </li>
-      <li>
-        <a href="http://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">@elixirphoenix</a>
-      </li>
-    </ul>
+  <div class='panel panel-default'>
+    <div class='panel-heading'>
+      <i class='icon-bell icon-large'></i>
+      INFO
+    </div>
+    <div class='panel-body'>
+      <div class='page-header'>
+        <h4></h4>
+      </div>
+      <div class='row text-center'>
+        <div class='col-md-3'>
+          <h3>トイレA</h3>
+          <img id="wc_10_men_1" src="/images/vacant_wc.png">
+        </div>
+        <div class='col-md-3'>
+          <h3>トイレB</h3>
+          <img id="wc_10_men_2" src="/images/vacant_wc.png">
+        </div>
+      </div>
+      <div class='page-header'>
+        <h4>Messages</h4>
+      </div>
+      <pre id="msg_bottom" class="pre-scrollable">
+        <div id="messages"></div>
+      </pre>
+    </div>
   </div>
 </div>
