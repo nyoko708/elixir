@@ -14,12 +14,6 @@
       </div>
       <div class='row text-center'>
         <div class='col-md-3'>
-          <h3>トイレA</h3>
-          <img id="wc_10_men_1" src="/images/vacant_wc.png">
-        </div>
-        <div class='col-md-3'>
-          <h3>トイレB</h3>
-          <img id="wc_10_men_2" src="/images/vacant_wc.png">
         </div>
       </div>
       <div class='page-header'>

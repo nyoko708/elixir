@@ -3,7 +3,7 @@
   <head>
     <meta charset='utf-8'>
     <meta content='IE=edge,chrome=1' http-equiv='X-UA-Compatible'>
-    <title>WC Availability</title>
+    <title>Polls System</title>
     <meta content='' name='description'>
     <meta content='' name='keywords'>
     <link href="css/app.css" rel="stylesheet" type="text/css" />
@@ -17,7 +17,7 @@
     <div class='navbar navbar-default' id='navbar'>
       <a class='navbar-brand' href='#'>
         <i class="icon-bell"></i>
-        天国か地獄
+        匿名投票ツール
       </a>
     </div>
     <div id='wrapper'>
