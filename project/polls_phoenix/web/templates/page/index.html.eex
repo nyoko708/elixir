@@ -6,22 +6,15 @@
   <div class='panel panel-default'>
     <div class='panel-heading'>
       <i class='icon-bell icon-large'></i>
-      INFO
+      Result
     </div>
     <div class='panel-body'>
       <div class='page-header'>
-        <h4></h4>
+        <h4>投票結果</h4>
       </div>
       <div class='row text-center'>
-        <div class='col-md-3'>
-        </div>
+        <canvas id="pollsCanvas" height="450" width="600"></canvas>
       </div>
-      <div class='page-header'>
-        <h4>Messages</h4>
-      </div>
-      <pre id="msg_bottom" class="pre-scrollable">
-        <div id="messages"></div>
-      </pre>
     </div>
   </div>
 </div>
