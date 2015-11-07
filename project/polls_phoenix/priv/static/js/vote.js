@@ -1,22 +1,29 @@
-(function($){
 
-  $("#vote_yes").click(function() {
-    hideDisplay(".yes_or_no");
-    showDisplay(".voted");
-  });
+var Vote = {
 
-  $("#vote_no").click(function() {
-    hideDisplay(".yes_or_no");
-    showDisplay(".voted");
-  });
+  clickYes: function(callback) {
+    var _this = this;
+    $("#vote_yes").click(function() {
+      _this.hideDisplay(".yes_or_no");
+      _this.showDisplay(".voted");
+      callback();
+    });
+  },
 
-  function hideDisplay(select) {
+  clickNo: function(callback) {
+    var _this = this;
+    $("#vote_no").click(function() {
+      _this.hideDisplay(".yes_or_no");
+      _this.showDisplay(".voted");
+      callback();
+    });
+  },
+
+  hideDisplay: function(select) {
     $(select).hide();
-  }
+  },
 
-  function showDisplay(select) {
+  showDisplay: function(select) {
     $(select).show();
   }
-
-})($);
-
+}

@@ -1142,6 +1142,36 @@ require("deps/phoenix_html/web/static/js/phoenix_html");
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+//
+
+var _depsPhoenixWebStaticJsPhoenix = require("deps/phoenix/web/static/js/phoenix");
+
+var socket = new _depsPhoenixWebStaticJsPhoenix.Socket("/socket");
+socket.connect();
+var chan = socket.channel("polls:vote", {});
+
+var yCount = 0;
+var nCount = 0;
+
+// 投票する
+Vote.clickYes(function () {
+  chan.push("vote", { body: { type: "yes", count: 1 } });
+});
+
+Vote.clickNo(function () {
+  chan.push("vote", { body: { type: "no", count: 1 } });
+});
+
+// 投票されたら
+chan.on("vote", function (payload) {
+  console.log(payload);
+  data = result.getData(yCount, nCount);
+  result.displayDoughnut(data);
+});
+
+chan.join().receive("ok", function (chan) {
+  console.log("Welcome to Phoenix Chat!");
+});
 });
 
 ;require.register("web/static/js/socket", function(exports, require, module) {

@@ -2,7 +2,7 @@ defmodule PollsPhoenix.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "rooms:*", PollsPhoenix.RoomChannel
+  channel "polls:*", PollsPhoenix.PollsChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
