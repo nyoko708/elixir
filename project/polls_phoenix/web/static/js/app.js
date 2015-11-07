@@ -28,6 +28,16 @@ socket.connect()
 let chanVote = socket.channel("polls:vote", {})
 let chanClear = socket.channel("polls:clear", {})
 
+// 投票結果系
+let yCount = 0;
+let nCount = 0;
+let sum = 0;
+
+// 初期値1,1で見せる。0,0だとうまく円グラフが表示されなかった
+let data = Result.getData(1, 1)
+let chartObj = Result.getObjOfDoughnut(data);
+
+
 // 投票する
 Vote.clickYes(function() {
   chanVote.push("vote", {body: {type: "yes", count: 1}})
@@ -43,27 +53,41 @@ $(".clear-polls").click(function() {
 })
 
 // 投票されたら
-let yCount = 0;
-let nCount = 0;
-let sum = 0;
 chanVote.on("vote", payload => {
+
+  let tmpNum = 0;
+
+  // 「はい」「いいえ」のどちらかに投票されたらインクリメントして、
+  // チャートをupdateする
   if(payload.type == "yes") {
-    yCount = yCount + 1;
+    yCount = yCount + 1
+    tmpNum = yCount;
   } else if(payload.type == "no") {
-    nCount = nCount + 1;
+    nCount = nCount + 1
+    tmpNum = nCount
+  }
+  Result.updateDoughnut(payload.type, tmpNum)
+
+  // 初期値が「はい:1」「いいえ:1」なので、「はい」、「いいえ」どちらかのカウントが
+  // 0のままの場合は「0」に戻す必要がある。でないと初期値の1が足されてしまう
+  if(yCount == 0) {
+    Result.updateDoughnut("yes", 0)
+  } else if(nCount == 0) {
+    Result.updateDoughnut("no", 0)
   }
 
+  // 合計数表示
   sum = yCount + nCount;
   $(".resultSum").html(sum);
-
-  var data = result.getData(yCount, nCount)
-  result.displayDoughnut(data)
 })
 
+// 投票をクリアする
 chanClear.on("clear", payload => {
-  var data = result.getData(0, 0)
-  result.displayDoughnut(data)
-  Vote.clickClear();
+  Result.updateDoughnut("yes", 1)
+  Result.updateDoughnut("no", 1)
+  Vote.clickClear()
+  yCount = 0
+  nCount = 0
 })
 
 chanVote.join().receive("ok", chan => {

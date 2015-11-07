@@ -1,4 +1,6 @@
-var result = (function($) {
+var Result = (function($) {
+
+  var obj = null;
 
   function getData(y, n) {
     var data = [
@@ -25,16 +27,37 @@ var result = (function($) {
     }
   }
 
-  function displayDoughnut(data) {
+  function getObjOfDoughnut(data) {
     if( typeof $('#pollsCanvas')[0] != "undefined" ) {
       var ctx = $('#pollsCanvas')[0].getContext("2d");
-      var myPieChart = new Chart(ctx).Pie(data);
+      this.obj = new Chart(ctx).Pie(data);
+    }
+    return this.obj;
+  }
+
+  function updateDoughnut(yesOrNo, num) {
+      if(yesOrNo == "yes") {
+        var val = 0;
+      } else if(yesOrNo == "no") {
+        var val = 1;
+      }
+      if( typeof this.obj != "undefined" ) {
+        this.obj.segments[val].value = num;
+        this.obj.update();
+      }
+  }
+
+  function removeDoughnut() {
+    if( typeof this.obj != "undefined" ) {
+      this.obj.removeData();
     }
   }
 
   return {
     getData: getData,
-    displayDoughnut: displayDoughnut
+    getObjOfDoughnut: getObjOfDoughnut,
+    updateDoughnut: updateDoughnut,
+    removeDoughnut: removeDoughnut
   };
 
 }($));
