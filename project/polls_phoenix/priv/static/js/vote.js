@@ -19,6 +19,11 @@ var Vote = {
     });
   },
 
+  clickClear: function() {
+      this.hideDisplay(".voted");
+      this.showDisplay(".yes_or_no");
+  },
+
   hideDisplay: function(select) {
     $(select).hide();
   },

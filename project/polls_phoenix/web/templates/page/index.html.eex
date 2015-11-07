@@ -11,6 +11,12 @@
     <div class='panel-body'>
       <div class='page-header'>
         <h4>投票結果</h4>
+        合計:<p class="resultSum">0</p>
+      </div>
+      <div class='row text-left'>
+        <div class="col-md-6">
+          <button class="btn btn-danger clear-polls" type="submit">クリアする</button
+        </div>
       </div>
       <div class='row text-center'>
         <canvas id="pollsCanvas" height="450" width="600"></canvas>

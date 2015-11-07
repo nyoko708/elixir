@@ -24,27 +24,52 @@ import "deps/phoenix_html/web/static/js/phoenix_html"
 import {Socket} from "deps/phoenix/web/static/js/phoenix"
 let socket = new Socket("/socket")
 socket.connect()
-let chan = socket.channel("polls:vote", {})
 
-let yCount = 0;
-let nCount = 0;
+let chanVote = socket.channel("polls:vote", {})
+let chanClear = socket.channel("polls:clear", {})
 
 // 投票する
 Vote.clickYes(function() {
-  chan.push("vote", {body: {type: "yes", count: 1}})
+  chanVote.push("vote", {body: {type: "yes", count: 1}})
 })
 
 Vote.clickNo(function() {
-  chan.push("vote", {body: {type: "no", count: 1}})
+  chanVote.push("vote", {body: {type: "no", count: 1}})
+})
+
+$(".clear-polls").click(function() {
+  $(".resultSum").html(0);
+  chanClear.push("clear", {body: "clear"});
 })
 
 // 投票されたら
-chan.on("vote", payload => {
-  console.log(payload)
-  data = result.getData(yCount, nCount)
+let yCount = 0;
+let nCount = 0;
+let sum = 0;
+chanVote.on("vote", payload => {
+  if(payload.type == "yes") {
+    yCount = yCount + 1;
+  } else if(payload.type == "no") {
+    nCount = nCount + 1;
+  }
+
+  sum = yCount + nCount;
+  $(".resultSum").html(sum);
+
+  var data = result.getData(yCount, nCount)
   result.displayDoughnut(data)
 })
 
-chan.join().receive("ok", chan => {
-   console.log("Welcome to Phoenix Chat!")
+chanClear.on("clear", payload => {
+  var data = result.getData(0, 0)
+  result.displayDoughnut(data)
+  Vote.clickClear();
+})
+
+chanVote.join().receive("ok", chan => {
+   console.log("vote")
+})
+
+chanClear.join().receive("ok", chan => {
+   console.log("clear")
 })

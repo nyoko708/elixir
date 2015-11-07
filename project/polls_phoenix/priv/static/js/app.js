@@ -1148,29 +1148,54 @@ var _depsPhoenixWebStaticJsPhoenix = require("deps/phoenix/web/static/js/phoenix
 
 var socket = new _depsPhoenixWebStaticJsPhoenix.Socket("/socket");
 socket.connect();
-var chan = socket.channel("polls:vote", {});
 
-var yCount = 0;
-var nCount = 0;
+var chanVote = socket.channel("polls:vote", {});
+var chanClear = socket.channel("polls:clear", {});
 
 // 投票する
 Vote.clickYes(function () {
-  chan.push("vote", { body: { type: "yes", count: 1 } });
+  chanVote.push("vote", { body: { type: "yes", count: 1 } });
 });
 
 Vote.clickNo(function () {
-  chan.push("vote", { body: { type: "no", count: 1 } });
+  chanVote.push("vote", { body: { type: "no", count: 1 } });
+});
+
+$(".clear-polls").click(function () {
+  $(".resultSum").html(0);
+  chanClear.push("clear", { body: "clear" });
 });
 
 // 投票されたら
-chan.on("vote", function (payload) {
-  console.log(payload);
-  data = result.getData(yCount, nCount);
+var yCount = 0;
+var nCount = 0;
+var sum = 0;
+chanVote.on("vote", function (payload) {
+  if (payload.type == "yes") {
+    yCount = yCount + 1;
+  } else if (payload.type == "no") {
+    nCount = nCount + 1;
+  }
+
+  sum = yCount + nCount;
+  $(".resultSum").html(sum);
+
+  var data = result.getData(yCount, nCount);
   result.displayDoughnut(data);
 });
 
-chan.join().receive("ok", function (chan) {
-  console.log("Welcome to Phoenix Chat!");
+chanClear.on("clear", function (payload) {
+  var data = result.getData(0, 0);
+  result.displayDoughnut(data);
+  Vote.clickClear();
+});
+
+chanVote.join().receive("ok", function (chan) {
+  console.log("vote");
+});
+
+chanClear.join().receive("ok", function (chan) {
+  console.log("clear");
 });
 });
 

@@ -19,9 +19,17 @@ var result = (function($) {
     return data;
   }
 
+  function getOption() {
+    return {
+      legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
+    }
+  }
+
   function displayDoughnut(data) {
-    var ctx = $('#pollsCanvas')[0].getContext("2d");
-    var myPieChart = new Chart(ctx).Pie(data);
+    if( typeof $('#pollsCanvas')[0] != "undefined" ) {
+      var ctx = $('#pollsCanvas')[0].getContext("2d");
+      var myPieChart = new Chart(ctx).Pie(data);
+    }
   }
 
   return {
