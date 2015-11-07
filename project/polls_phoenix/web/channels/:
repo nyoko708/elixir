@@ -6,8 +6,7 @@ defmodule PollsPhoenix.PollsChannel do
   end
 
   def handle_in("vote", message, socket) do
-    IO.puts message
-    broadcast! socket, "vote", message
+    broadcast! socket, "vote", %{body: body}
     {:noreply, socket}
   end
 
