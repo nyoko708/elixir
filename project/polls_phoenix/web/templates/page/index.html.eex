@@ -23,8 +23,8 @@
         </div>
         <div class="col-md-3 text-left">
           <ul>
-            <li class="list-unstyled">合計：　<span class="resultSum help-inline">0</span></li>
-            <li class="list-unstyled">はい：　<span class="resultYes help-inline">0</span></li>
+            <li class="list-unstyled">合計：　　<span class="resultSum help-inline">0</span></li>
+            <li class="list-unstyled">はい：　　<span class="resultYes help-inline">0</span></li>
             <li class="list-unstyled">いいえ：　<span class="resultNo help-inline">0</span></li>
           </ul>
         </div>

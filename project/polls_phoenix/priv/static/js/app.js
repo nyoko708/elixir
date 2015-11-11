@@ -1172,6 +1172,8 @@ Vote.clickNo(function () {
 
 $(".clear-polls").click(function () {
   $(".resultSum").html(0);
+  $(".resultYes").html(0);
+  $(".resultNo").html(0);
   chanClear.push("clear", { body: "clear" });
 });
 
@@ -1202,6 +1204,8 @@ chanVote.on("vote", function (payload) {
   // 合計数表示
   sum = yCount + nCount;
   $(".resultSum").html(sum);
+  $(".resultYes").html(yCount);
+  $(".resultNo").html(nCount);
 });
 
 // 投票をクリアする
